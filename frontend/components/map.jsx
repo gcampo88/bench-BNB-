@@ -14,9 +14,14 @@ var Map = React.createClass({
 		this.listener = BenchStore.addListener(this._onChange);
 
 		this.listenForIdleAfterMove();
+		this.markers = [];
 	},
 
 	_onChange: function () {
+		this.markers.forEach(function(marker) {
+			marker.setMap(null);
+		})
+		
 		var benches = BenchStore.all();
 		benches.forEach(this.addBench);
 	},
@@ -32,6 +37,8 @@ var Map = React.createClass({
 			position: pos,
 			map: this.map
 		});
+
+		this.markers.push(marker);
 
 
 

@@ -6963,12 +6963,10 @@
 				data: query,
 				dataType: "json",
 				success: function (benches) {
-					console.log(benches.length + " currently been fetched");
 					ApiActions.receiveAll(benches);
 				},
 				error: function () {
-					// debugger;
-					console.log("failed ajax call, query was:" + query);
+					console.log("failed ajax call");
 				}
 			});
 		}
@@ -26536,11 +26534,22 @@
 		},
 	
 		render: function () {
-	
+			var benchesToRender = this.state.benches.map(function (bench) {
+				return React.createElement(
+					'li',
+					null,
+					bench.description
+				);
+			});
 			return React.createElement(
-				'div',
+				'ul',
 				null,
-				'WE\'RE IN INDEX RENDER FUNCTION'
+				React.createElement(
+					'h3',
+					null,
+					'Some of the benches available in this area:'
+				),
+				benchesToRender
 			);
 		}
 	
@@ -26594,9 +26603,14 @@
 			this.listener = BenchStore.addListener(this._onChange);
 	
 			this.listenForIdleAfterMove();
+			this.markers = [];
 		},
 	
 		_onChange: function () {
+			this.markers.forEach(function (marker) {
+				marker.setMap(null);
+			});
+	
 			var benches = BenchStore.all();
 			benches.forEach(this.addBench);
 		},
@@ -26612,6 +26626,8 @@
 				position: pos,
 				map: this.map
 			});
+	
+			this.markers.push(marker);
 	
 			marker.addListener('click', function () {
 				alert(bench.description);

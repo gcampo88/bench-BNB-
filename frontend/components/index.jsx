@@ -22,9 +22,14 @@ var Index = React.createClass({
 
 
 	render: function () {
-
+		var benchesToRender = this.state.benches.map(function (bench) {
+			return (<li>{bench.description}</li>);
+		});
 		return(
-			<div>WE'RE IN INDEX RENDER FUNCTION</div>
+			<ul>
+				<h3>Some of the benches available in this area:</h3>
+				{benchesToRender}
+			</ul>
 		);
 	}
 

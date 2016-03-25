@@ -11,12 +11,10 @@ ApiUtil = {
 			data: query,
 			dataType: "json",
 			success: function (benches) {
-				console.log(benches.length + " currently been fetched")
 				ApiActions.receiveAll(benches);
 			},
 			error: function () {
-				// debugger;
-				console.log("failed ajax call, query was:" + query);
+				console.log("failed ajax call");
 			}
 		});
 

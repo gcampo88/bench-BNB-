@@ -9,7 +9,7 @@ Search = React.createClass({
 		return(
 			<div>
 				<Map />
-				<Index />
+				<Index /> 
 			</div>
 		);
 	}
