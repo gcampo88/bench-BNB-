@@ -20,8 +20,8 @@ var Map = React.createClass({
 	_onChange: function () {
 		this.markers.forEach(function(marker) {
 			marker.setMap(null);
-		})
-		
+		});
+
 		var benches = BenchStore.all();
 		benches.forEach(this.addBench);
 	},
