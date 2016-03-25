@@ -6954,13 +6954,21 @@
 	var ApiActions = __webpack_require__(25);
 	
 	ApiUtil = {
-		fetchBenches: function () {
+		fetchBenches: function (params) {
+			var query = params || "";
+			// debugger;
 			$.ajax({
 				url: "api/benches",
 				type: "GET",
+				data: query,
 				dataType: "json",
 				success: function (benches) {
+					console.log(benches.length + " currently been fetched");
 					ApiActions.receiveAll(benches);
+				},
+				error: function () {
+					// debugger;
+					console.log("failed ajax call, query was:" + query);
 				}
 			});
 		}
@@ -26576,10 +26584,6 @@
 		displayName: 'Map',
 	
 	
-		// getInitialState: function () {
-		//
-		// },
-		//
 		componentDidMount: function () {
 			var mapDOMNode = this.refs.map;
 			var mapOptions = {
@@ -26617,8 +26621,26 @@
 		listenForIdleAfterMove: function () {
 			var that = this;
 			this.map.addListener('idle', function (e) {
-				console.log("idling after move");
-				ApiUtil.fetchBenches();
+				var nE = that.map.getBounds().getNorthEast();
+				var northEastParams = {
+					lat: nE.lat(),
+					lng: nE.lng()
+				};
+	
+				var sW = that.map.getBounds().getSouthWest();
+				var southWestParams = {
+					lat: sW.lat(),
+					lng: sW.lng()
+				};
+	
+				var boundsParams = {
+					bounds: {
+						northEast: northEastParams,
+						southWest: southWestParams
+					}
+				};
+	
+				ApiUtil.fetchBenches(boundsParams);
 			});
 		},
 	

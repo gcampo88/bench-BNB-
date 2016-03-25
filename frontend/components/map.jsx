@@ -4,10 +4,6 @@ var BenchStore = require('../stores/bench');
 
 var Map = React.createClass({
 
-	// getInitialState: function () {
-	//
-	// },
-	//
 	componentDidMount: function () {
 		var mapDOMNode = this.refs.map;
 		var mapOptions = {
@@ -48,8 +44,26 @@ var Map = React.createClass({
 	listenForIdleAfterMove: function () {
 		var that = this;
 		this.map.addListener('idle', function (e) {
-			console.log("idling after move");
-			ApiUtil.fetchBenches();
+			var nE = that.map.getBounds().getNorthEast();
+			var northEastParams = {
+				lat: nE.lat(),
+				lng: nE.lng()
+			};
+
+			var sW = that.map.getBounds().getSouthWest();
+			var southWestParams = {
+				lat: sW.lat(),
+				lng: sW.lng()
+			};
+
+			var boundsParams = {
+				bounds: {
+						northEast: northEastParams,
+						southWest: southWestParams
+					}
+				};
+
+			ApiUtil.fetchBenches(boundsParams);
 		});
 	},
 
