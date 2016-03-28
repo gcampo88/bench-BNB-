@@ -1,13 +1,61 @@
 // Place all the styles related to the Api::Benches controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html, body, h1, h4, div {
+	margin: 0;
+	border: 0;
+	padding: 0;
+
+	box-sizing: content-box;
+
+	font: inherit;
+	color: inherit;
+	vertical-align: inherit;
+	text-decoration: inherit;
+
+	background: transparent;
+}
+
+.body {
+	text-align: center;
+}
 .map {
 	width: 500px;
 	height: 500px;
+	margin: auto;
+	border: 1px solid black;
+	position: relative;
 }
 
 
-.headerbench >h1,
-.headerbench > h4 {
+.header {
 	text-align: center;
+}
+
+.index {
+	list-style: none;
+	text-align: center;
+}
+
+.index > li {
+	text-align: inherit;
+	padding: 10px;
+}
+
+.index > li:hover {
+	background: lightgreen;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.benchform {
+	margin: 20px;
+	width: 350px;
+	background: #eee;
+	box-sizing: content-box;
+	border: 1px solid black;
+}
+
+.benchform > * {
+	margin: 20px;
 }

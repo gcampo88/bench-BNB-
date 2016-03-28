@@ -14,7 +14,25 @@ ApiUtil = {
 				ApiActions.receiveAll(benches);
 			},
 			error: function () {
-				console.log("failed ajax call");
+				console.log("failed ajax get request");
+			}
+		});
+
+	},
+
+	createBench: function (params) {
+		// debugger;
+		$.ajax({
+			url: "api/benches",
+			type: "POST",
+			data: params,
+			dataType: "json",
+			success: function (benches) {
+				console.log("Success!");
+				ApiActions.receiveAll(benches);
+			},
+			error: function () {
+				console.log("failed AJAX post request");
 			}
 		});
 

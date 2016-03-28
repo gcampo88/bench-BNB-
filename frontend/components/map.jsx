@@ -57,6 +57,7 @@ var Map = React.createClass({
 				lng: nE.lng()
 			};
 
+
 			var sW = that.map.getBounds().getSouthWest();
 			var southWestParams = {
 				lat: sW.lat(),
@@ -72,6 +73,18 @@ var Map = React.createClass({
 
 			ApiUtil.fetchBenches(boundsParams);
 		});
+
+		this.map.addListener("click", function (e) {
+			var clickedLat = e.latLng.lat();
+			var clickedLng = e.latLng.lng();
+			var coords = {
+				lat: clickedLat,
+				lng: clickedLng
+			};
+			// debugger;
+			that.props.onClick(coords);
+		});
+
 	},
 
 	render: function () {
