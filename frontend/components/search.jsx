@@ -1,7 +1,6 @@
 var React = require('react');
 var Map = require('./map');
 var Index = require('./index');
-var Bootstrap = require('bootstrap');
 
 Search = React.createClass({
 
