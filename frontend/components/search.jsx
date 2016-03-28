@@ -36,7 +36,7 @@ Search = React.createClass({
 		return(
 			<div className="search group">
 				<Map onClick={this.clickMapHandler}/>
-				<Index className="index" />
+				<Index className="index" history={this.props.history}/>
 
 				<SeatFilter className="seatFilter" filterParams={this.state.filterParams} />
 

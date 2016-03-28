@@ -25,6 +25,20 @@ ApiUtil = {
 
 	},
 
+	fetchSingleBench: function (id) {
+		$.ajax({
+			url: "api/benches/" + id,
+			type: "GET",
+			dataType: "json",
+			success: function (bench) {
+				ApiActions.receiveSingleBench(bench);
+			},
+			error: function () {
+				console.log("failed ajax get request for single bench");
+			}
+		});
+	},
+
 	createBench: function (params) {
 
 		$.ajax({

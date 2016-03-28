@@ -1,6 +1,7 @@
 var React = require('react');
 var BenchStore = require('../stores/bench');
 var ApiUtil = require('../util/api_util');
+var BenchDetail = require('./benchDetail');
 
 var Index = React.createClass({
 	getInitialState: function () {
@@ -14,6 +15,7 @@ var Index = React.createClass({
 
 	_onChange: function () {
 		this.setState({ benches: BenchStore.all() });
+		// debugger;
 	},
 
 	componentWillUnmount: function () {
@@ -22,9 +24,11 @@ var Index = React.createClass({
 
 
 	render: function () {
+		var that = this;
 		var benchesToRender = this.state.benches.map(function (bench) {
-			return (<li>{bench.description}</li>);
+			return (<BenchDetail bench={bench} history={that.props.history}/>);
 		});
+
 		return(
 			<ul className="index">
 				<h3>Some of the benches available in this area:</h3>

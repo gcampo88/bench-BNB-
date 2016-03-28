@@ -10,6 +10,8 @@ var ApiUtil = require('./util/api_util');
 var Index = require('./components/index');
 var Search = require('./components/search');
 var BenchForm = require('./components/benchForm');
+// var BenchDetail = require('./components/benchDetail');
+var BenchDetailItem = require('./components/benchDetailItem');
 
 
 
@@ -31,6 +33,8 @@ var routes = (
 	<Route path="/" component={App}>
 		<IndexRoute component={Search} />
 		<Route path="benches/new" component={BenchForm} />
+		<Route path="benches/:benchId" component={BenchDetailItem} />
+
 	</Route>
 );
 

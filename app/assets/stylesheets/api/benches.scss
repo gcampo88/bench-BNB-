@@ -48,12 +48,12 @@ html, body, h1, h4, div {
 	float: left;
 }
 
-.index > li {
+.index-item {
 	text-align: inherit;
 	padding: 10px;
 }
 
-.index > li:hover {
+.index-item:hover {
 	background: lightgreen;
 	display: inline-block;
 	cursor: pointer;
