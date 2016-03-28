@@ -1,10 +1,11 @@
 var AppDispatcher = require('../dispatcher/dispatcher');
+var FilterConstants = require('../constants/filter_constants');
 
-FilterActions = {
+var FilterActions = {
 	receiveNewFilters: function (params) {
 		AppDispatcher.dispatch({
-			// actionType: ,
-			// benches:
+			actionType: FilterConstants.FILTERS_RECEIVED,
+			params: params
 		});
 	}
 

@@ -26512,7 +26512,6 @@
 	ApiUtil = {
 		fetchBenches: function (params) {
 			var query = params || "";
-			// debugger;
 			$.ajax({
 				url: "api/benches",
 				type: "GET",
@@ -26528,14 +26527,13 @@
 		},
 	
 		createBench: function (params) {
-			// debugger;
+	
 			$.ajax({
 				url: "api/benches",
 				type: "POST",
 				data: params,
 				dataType: "json",
 				success: function (benches) {
-					console.log("Success!");
 					ApiActions.receiveAll(benches);
 				},
 				error: function () {
@@ -26573,6 +26571,7 @@
 
 	var React = __webpack_require__(1);
 	var BenchStore = __webpack_require__(159);
+	var ApiUtil = __webpack_require__(182);
 	
 	var Index = React.createClass({
 		displayName: 'Index',
@@ -26625,10 +26624,27 @@
 	var React = __webpack_require__(1);
 	var Map = __webpack_require__(186);
 	var Index = __webpack_require__(184);
+	var FilterStore = __webpack_require__(235);
 	// var BenchForm = require('./benchForm');
 	
 	Search = React.createClass({
 		displayName: 'Search',
+	
+		getInitialState: function () {
+			return {
+				filterParams: FilterStore.boundsParams()
+			};
+		},
+	
+		componentDidMount: function () {
+			var that = this;
+	
+			FilterStore.addListener(function () {
+				var currentParams = FilterStore.boundsParams();
+				ApiUtil.fetchBenches(currentParams);
+				that.setState({ filterParams: currentParams });
+			});
+		},
 	
 		clickMapHandler: function (coords) {
 			this.props.history.push({
@@ -26656,6 +26672,7 @@
 
 	var React = __webpack_require__(1);
 	var BenchStore = __webpack_require__(159);
+	var FilterActions = __webpack_require__(237);
 	
 	var Map = React.createClass({
 		displayName: 'Map',
@@ -26723,8 +26740,7 @@
 						southWest: southWestParams
 					}
 				};
-	
-				ApiUtil.fetchBenches(boundsParams);
+				FilterActions.receiveNewFilters(boundsParams);
 			});
 	
 			this.map.addListener("click", function (e) {
@@ -31182,6 +31198,68 @@
 	});
 	
 	module.exports = BenchForm;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(160).Store;
+	var AppDispatcher = __webpack_require__(178);
+	var FilterConstants = __webpack_require__(236);
+	
+	var FilterStore = new Store(AppDispatcher);
+	
+	var filterParams = {
+		bounds: {},
+		minSeat: "",
+		maxSeat: ""
+	};
+	
+	FilterStore.boundsParams = function () {
+		return filterParams;
+	};
+	
+	FilterStore.receiveParams = function (params) {
+		filterParams = params;
+	};
+	
+	FilterStore.__onDispatch = function (payload) {
+		switch (payload.actionType) {
+			case FilterConstants.FILTERS_RECEIVED:
+				FilterStore.receiveParams(payload.params);
+				FilterStore.__emitChange();
+				break;
+		}
+	};
+	
+	module.exports = FilterStore;
+
+/***/ },
+/* 236 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		FILTERS_RECEIVED: "FILTERS_RECEIVED"
+	};
+
+/***/ },
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(178);
+	var FilterConstants = __webpack_require__(236);
+	
+	var FilterActions = {
+		receiveNewFilters: function (params) {
+			AppDispatcher.dispatch({
+				actionType: FilterConstants.FILTERS_RECEIVED,
+				params: params
+			});
+		}
+	
+	};
+	
+	module.exports = FilterActions;
 
 /***/ }
 /******/ ]);

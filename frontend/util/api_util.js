@@ -4,7 +4,6 @@ var ApiActions  = require('../actions/api_actions');
 ApiUtil = {
 	fetchBenches: function (params) {
 		var query = params || "";
-		// debugger;
 		$.ajax({
 			url: "api/benches",
 			type: "GET",
@@ -21,14 +20,13 @@ ApiUtil = {
 	},
 
 	createBench: function (params) {
-		// debugger;
+
 		$.ajax({
 			url: "api/benches",
 			type: "POST",
 			data: params,
 			dataType: "json",
 			success: function (benches) {
-				console.log("Success!");
 				ApiActions.receiveAll(benches);
 			},
 			error: function () {

@@ -1,5 +1,6 @@
 var React = require('react');
 var BenchStore = require('../stores/bench');
+var FilterActions = require('../actions/filter_actions');
 
 
 var Map = React.createClass({
@@ -70,8 +71,8 @@ var Map = React.createClass({
 						southWest: southWestParams
 					}
 				};
+			FilterActions.receiveNewFilters(boundsParams);
 
-			ApiUtil.fetchBenches(boundsParams);
 		});
 
 		this.map.addListener("click", function (e) {
