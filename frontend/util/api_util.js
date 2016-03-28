@@ -3,7 +3,13 @@ var ApiActions  = require('../actions/api_actions');
 
 ApiUtil = {
 	fetchBenches: function (params) {
-		var query = params || "";
+		var query;
+		if (params) {
+			query = { filters: params };
+		} else {
+			query = "";
+		}
+		// debugger;
 		$.ajax({
 			url: "api/benches",
 			type: "GET",

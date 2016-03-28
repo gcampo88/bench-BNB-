@@ -6,8 +6,8 @@ var FilterStore = new Store(AppDispatcher);
 
 var filterParams = {
 	bounds: {},
-	minSeat: "",
-	maxSeat: ""
+	minSeats: "",
+	maxSeats: ""
 };
 
 FilterStore.boundsParams = function () {
@@ -15,7 +15,16 @@ FilterStore.boundsParams = function () {
 };
 
 FilterStore.receiveParams = function (params) {
-	filterParams = params;
+	// debugger;
+	if (params.hasOwnProperty("minSeats")) {
+		filterParams.minSeats = params.minSeats;
+	}
+	if (params.hasOwnProperty("maxSeats")) {
+		filterParams.maxSeats = params.maxSeats;
+	}
+	if (params.hasOwnProperty("bounds")) {
+		filterParams.bounds = params.bounds;
+	}
 };
 
 FilterStore.__onDispatch = function (payload) {
@@ -23,6 +32,7 @@ FilterStore.__onDispatch = function (payload) {
 		case FilterConstants.FILTERS_RECEIVED:
 			FilterStore.receiveParams(payload.params);
 			FilterStore.__emitChange();
+			// debugger;
 			break;
 	}
 };

@@ -2,7 +2,8 @@ var React = require('react');
 var Map = require('./map');
 var Index = require('./index');
 var FilterStore = require('../stores/filter');
-// var BenchForm = require('./benchForm');
+var ApiUtil = require('../util/api_util');
+var SeatFilter = require('./seatFilter');
 
 Search = React.createClass({
 	getInitialState: function () {
@@ -33,9 +34,11 @@ Search = React.createClass({
 
 	render: function () {
 		return(
-			<div>
+			<div className="search group">
 				<Map onClick={this.clickMapHandler}/>
 				<Index className="index" />
+
+				<SeatFilter className="seatFilter" filterParams={this.state.filterParams} />
 
 
 			</div>

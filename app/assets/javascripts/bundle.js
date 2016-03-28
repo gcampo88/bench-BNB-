@@ -26511,7 +26511,13 @@
 	
 	ApiUtil = {
 		fetchBenches: function (params) {
-			var query = params || "";
+			var query;
+			if (params) {
+				query = { filters: params };
+			} else {
+				query = "";
+			}
+			// debugger;
 			$.ajax({
 				url: "api/benches",
 				type: "GET",
@@ -26625,7 +26631,8 @@
 	var Map = __webpack_require__(186);
 	var Index = __webpack_require__(184);
 	var FilterStore = __webpack_require__(235);
-	// var BenchForm = require('./benchForm');
+	var ApiUtil = __webpack_require__(182);
+	var SeatFilter = __webpack_require__(238);
 	
 	Search = React.createClass({
 		displayName: 'Search',
@@ -26656,9 +26663,10 @@
 		render: function () {
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'search group' },
 				React.createElement(Map, { onClick: this.clickMapHandler }),
-				React.createElement(Index, { className: 'index' })
+				React.createElement(Index, { className: 'index' }),
+				React.createElement(SeatFilter, { className: 'seatFilter', filterParams: this.state.filterParams })
 			);
 		}
 	
@@ -31211,8 +31219,8 @@
 	
 	var filterParams = {
 		bounds: {},
-		minSeat: "",
-		maxSeat: ""
+		minSeats: "",
+		maxSeats: ""
 	};
 	
 	FilterStore.boundsParams = function () {
@@ -31220,7 +31228,16 @@
 	};
 	
 	FilterStore.receiveParams = function (params) {
-		filterParams = params;
+		// debugger;
+		if (params.hasOwnProperty("minSeats")) {
+			filterParams.minSeats = params.minSeats;
+		}
+		if (params.hasOwnProperty("maxSeats")) {
+			filterParams.maxSeats = params.maxSeats;
+		}
+		if (params.hasOwnProperty("bounds")) {
+			filterParams.bounds = params.bounds;
+		}
 	};
 	
 	FilterStore.__onDispatch = function (payload) {
@@ -31228,6 +31245,7 @@
 			case FilterConstants.FILTERS_RECEIVED:
 				FilterStore.receiveParams(payload.params);
 				FilterStore.__emitChange();
+				// debugger;
 				break;
 		}
 	};
@@ -31251,6 +31269,7 @@
 	
 	var FilterActions = {
 		receiveNewFilters: function (params) {
+			// debugger;
 			AppDispatcher.dispatch({
 				actionType: FilterConstants.FILTERS_RECEIVED,
 				params: params
@@ -31260,6 +31279,69 @@
 	};
 	
 	module.exports = FilterActions;
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var FilterActions = __webpack_require__(237);
+	
+	var SeatFilter = React.createClass({
+		displayName: 'SeatFilter',
+	
+		//add max & min seating bounds into params
+		getInitialState: function () {
+			return {
+				maxSeats: null,
+				minSeats: null
+	
+			};
+		},
+	
+		handleNewMax: function (e) {
+			this.setState({ maxSeats: e.currentTarget.value });
+	
+			var filterParams = this.props.filterParams;
+			// debugger;
+			filterParams.maxSeats = e.currentTarget.value;
+			FilterActions.receiveNewFilters(filterParams);
+		},
+	
+		handleNewMin: function (e) {
+			this.setState({ minSeats: e.currentTarget.value });
+	
+			var filterParams = this.props.filterParams;
+			filterParams.minSeats = e.currentTarget.value;
+			FilterActions.receiveNewFilters(filterParams);
+		},
+	
+		render: function () {
+			return React.createElement(
+				'form',
+				{ className: 'seatFilter' },
+				React.createElement(
+					'h3',
+					null,
+					'Filter by number of seats'
+				),
+				React.createElement(
+					'label',
+					null,
+					'Minimum',
+					React.createElement('input', { type: 'text', onChange: this.handleNewMin, placeholder: 'so few seats', value: this.state.minSeats })
+				),
+				React.createElement(
+					'label',
+					null,
+					'Maximum',
+					React.createElement('input', { type: 'text', onChange: this.handleNewMax, placeholder: 'all the seats', value: this.state.maxSeats })
+				)
+			);
+		}
+	});
+	
+	module.exports = SeatFilter;
 
 /***/ }
 /******/ ]);

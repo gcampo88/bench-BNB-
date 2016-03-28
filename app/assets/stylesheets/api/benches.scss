@@ -16,16 +16,25 @@ html, body, h1, h4, div {
 	background: transparent;
 }
 
+.group:after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
 .body {
 	text-align: center;
 }
 .map {
 	width: 500px;
 	height: 500px;
-	margin: auto;
 	border: 1px solid black;
 	position: relative;
 	float: left;
+}
+
+.seatFilter {
+	clear: both;
 }
 
 
@@ -36,7 +45,7 @@ html, body, h1, h4, div {
 .index {
 	list-style: none;
 	text-align: center;
-	float: right;
+	float: left;
 }
 
 .index > li {
